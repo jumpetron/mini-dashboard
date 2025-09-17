@@ -5,14 +5,15 @@ function useFetch<T>(url: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-useEffect(() => {
-  (async () => {
+  useEffect(() => {
+     if (!url) return 
+     (async () => {
     try {
       setLoading(true);
       setError(null);
 
       const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to fetch");
+      if (!response.ok) throw new Error("Failed to load posts");
 
       const result: T = await response.json();
       setData(result);

@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Area,
@@ -11,6 +11,7 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
+import useFetch from '@/hooks/useFetch'
 
 const stats = [
   { id: '1', label: 'Active Users', value: '1.2k' },
@@ -19,7 +20,14 @@ const stats = [
 ]
 
 export default function Home() {
-  const data = [
+  const [simulateError, setSimulateError] = useState(false)
+
+  // Only call the invalid endpoint when button clicked
+  const { data, loading, error } = useFetch(
+    simulateError ? 'https://jsonplaceholder.typicode.com/invalid-posts' : ''
+  )
+
+  const chartData = [
     {
       name: 'Page A',
       uv: 4000,
@@ -63,22 +71,33 @@ export default function Home() {
       amt: 2100
     }
   ]
-
   return (
     <div className='flex-1 bg-gray-50'>
       <motion.div
-        className='mb-6'
+        className='mb-6 flex justify-between items-center'
         initial='hidden'
         animate='visible'
         variants={{
           hidden: { y: -20, opacity: 0 },
           visible: { y: 0, opacity: 1, transition: { duration: 0.45 } }
         }}>
-        <h1 className='text-2xl font-bold text-slate-800'>Welcome back!</h1>
-        <p className='text-sm text-slate-500 mt-1'>
-          Here&apos;s a quick snapshot of your app.
-        </p>
+        <div>
+          <h1 className='text-2xl font-bold text-slate-800'>Welcome back!</h1>
+          <p className='text-sm text-slate-500 mt-1'>
+            Here&apos;s a quick snapshot of your app.
+          </p>
+        </div>
+
+        {/* Simulate Error Button */}
+        <button
+          className='bg-red-500 text-white px-4 py-2 rounded'
+          onClick={() => setSimulateError(true)}>
+          Simulate Error
+        </button>
       </motion.div>
+
+      {/* Show Error*/}
+      {error && <p className='text-red-500 mb-4'>Error: {error}</p>}
 
       {/* Header Card */}
       <motion.div
@@ -110,7 +129,7 @@ export default function Home() {
       {/* Chart */}
       <div className='w-full h-80 flex bg-white p-4 rounded-lg shadow-sm text-black'>
         <ResponsiveContainer width='100%' height='100%'>
-          <AreaChart data={data}>
+          <AreaChart data={chartData}>
             <CartesianGrid strokeDasharray='3 3' />
             <XAxis dataKey='name' />
             <YAxis />
