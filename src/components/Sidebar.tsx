@@ -42,13 +42,13 @@ export default function Sidebar() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
           className='my-2 mx-auto block'>
-          <a href=''>
+          <Link href='/'>
             <Image
               src={isOpen ? logo : logoTwo}
               width={isOpen ? 150 : 200}
               alt='logo'
             />
-          </a>
+          </Link>
         </motion.div>
 
         <nav>
