@@ -1,103 +1,137 @@
-import Image from "next/image";
+'use client'
+
+import React from 'react'
+import { motion } from 'framer-motion'
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts'
+
+const stats = [
+  { id: '1', label: 'Active Users', value: '1.2k' },
+  { id: '2', label: 'Open Posts', value: '320' },
+  { id: '3', label: 'Revenue (M)', value: '$4.5k' }
+]
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const data = [
+    {
+      name: 'Page A',
+      uv: 4000,
+      pv: 2400,
+      amt: 2400
+    },
+    {
+      name: 'Page B',
+      uv: 3000,
+      pv: 1398,
+      amt: 2210
+    },
+    {
+      name: 'Page C',
+      uv: 2000,
+      pv: 9800,
+      amt: 2290
+    },
+    {
+      name: 'Page D',
+      uv: 2780,
+      pv: 3908,
+      amt: 2000
+    },
+    {
+      name: 'Page E',
+      uv: 1890,
+      pv: 4800,
+      amt: 2181
+    },
+    {
+      name: 'Page F',
+      uv: 2390,
+      pv: 3800,
+      amt: 2500
+    },
+    {
+      name: 'Page G',
+      uv: 3490,
+      pv: 4300,
+      amt: 2100
+    }
+  ]
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  return (
+    <div className='flex-1 bg-gray-50'>
+      <motion.div
+        className='mb-6'
+        initial='hidden'
+        animate='visible'
+        variants={{
+          hidden: { y: -20, opacity: 0 },
+          visible: { y: 0, opacity: 1, transition: { duration: 0.45 } }
+        }}>
+        <h1 className='text-2xl font-bold text-slate-800'>Welcome back!</h1>
+        <p className='text-sm text-slate-500 mt-1'>
+          Here's a quick snapshot of your app.
+        </p>
+      </motion.div>
+
+      {/* Header Card */}
+      <motion.div
+        className='grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8'
+        initial='hidden'
+        animate='visible'
+        variants={{
+          hidden: {},
+          visible: {
+            transition: { staggerChildren: 0.08, delayChildren: 0.12 }
+          }
+        }}>
+        {stats.map((stat) => (
+          <motion.div
+            key={stat.id}
+            className='bg-white rounded-lg p-4 shadow-sm border'
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.06, duration: 0.35 }}>
+            <div className='text-xs text-slate-400'>{stat.label}</div>
+            <div className='mt-2 text-2xl font-semibold text-slate-800'>
+              {stat.value}
+            </div>
+            <div className='text-xs text-slate-400 mt-1'>placeholder</div>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Chart */}
+      <div className='w-full h-80 flex bg-white p-4 rounded-lg shadow-sm text-black'>
+        <ResponsiveContainer width='100%' height='100%'>
+          <AreaChart data={data}>
+            <CartesianGrid strokeDasharray='3 3' />
+            <XAxis dataKey='name' />
+            <YAxis />
+            <Tooltip />
+            <Area
+              type='monotone'
+              dataKey='uv'
+              stackId='1'
+              stroke='#8884d8'
+              fill='#8884d8'
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <Area
+              type='monotone'
+              dataKey='pv'
+              stackId='1'
+              stroke='#82ca9d'
+              fill='#82ca9d'
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     </div>
-  );
+  )
 }
