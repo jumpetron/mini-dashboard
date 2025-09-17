@@ -6,7 +6,7 @@ function useFetch<T>(url: string) {
   const [error, setError] = useState<string | null>(null);
 
 useEffect(() => {
-  const fetchData = async () => {
+  (async () => {
     try {
       setLoading(true);
       setError(null);
@@ -18,17 +18,16 @@ useEffect(() => {
       setData(result);
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message) 
+        setError(err.message);
       } else {
-        setError('Something went wrong')
-       }
+        setError("Something went wrong");
+      }
     } finally {
       setLoading(false);
     }
-  };
-
-  fetchData();
+  })();
 }, [url]);
+
 
 
   return { data, loading, error };

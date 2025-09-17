@@ -76,7 +76,7 @@ export default function Home() {
         }}>
         <h1 className='text-2xl font-bold text-slate-800'>Welcome back!</h1>
         <p className='text-sm text-slate-500 mt-1'>
-          {"Here's a quick snapshot of your app."}
+          Here&apos;s a quick snapshot of your app.
         </p>
       </motion.div>
 
